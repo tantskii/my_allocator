@@ -18,13 +18,20 @@ if (MSVC)
     target_compile_options(my_allocator PRIVATE
         /W4
     )
+    target_compile_options(my_allocator_test PRIVATE
+        /W4
+    )	
 else ()
     target_compile_options(my_allocator PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
+    target_compile_options(my_allocator_test PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
 
 install(TARGETS my_allocator RUNTIME DESTINATION bin)
+
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
