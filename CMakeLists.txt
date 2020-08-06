@@ -22,12 +22,18 @@ if (MSVC)
     )
     target_compile_options(my_allocator_test PRIVATE
         /W4
-    )	
+    )
+    target_compile_options(my_allocator_lib PRIVATE
+        /W4
+    )
 else ()
     target_compile_options(my_allocator PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
     target_compile_options(my_allocator_test PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
+    target_compile_options(my_allocator_lib PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()
