@@ -5,9 +5,5 @@ file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
 set(SOURCES ${SOURCES})
 
 add_executable(${BINARY} ${SOURCES})
-set_target_properties(${BINARY} PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED ON
-)
 
 add_library(${BINARY}_lib STATIC ${SOURCES})

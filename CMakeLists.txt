@@ -6,13 +6,15 @@ endif()
 
 project(my_allocator VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
-set(CMAKE_CXX_STANDARD 17)
-set(CXX_STANDARD_REQUIRED ON)
-
 include_directories(source)
 add_subdirectory(source)
 add_subdirectory(test)
 add_subdirectory(lib/googletest)
+
+set_target_properties(my_allocator my_allocator_test my_allocator_lib PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
 
 if (MSVC)
     target_compile_options(my_allocator PRIVATE
