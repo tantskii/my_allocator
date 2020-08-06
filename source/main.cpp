@@ -38,11 +38,6 @@ int main() {
         for (int i = 0; i < MaxIndex; i++) {
             myList.addElement(i);
         }
-        
-
-        for (const auto& elem: myList) {
-            std::cout << elem << std::endl;
-        }
     }
 
     // 4. custom container and custom allocator

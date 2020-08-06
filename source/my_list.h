@@ -162,6 +162,7 @@ I& Iterator<I>::operator*() const {
     return m_nodePtr->object;
 }
 
+
 template <typename I>
 Iterator<I>& Iterator<I>::operator++() {
     m_nodePtr = m_nodePtr->next;
