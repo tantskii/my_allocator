@@ -48,3 +48,43 @@ TEST(MyAllocatorTest, AllDataInTheRow) {
     ASSERT_EQ(buf_1 + 4, buf_2);
     ASSERT_EQ(buf_2 + 5, buf_3);
 }
+
+
+TEST(MyAllocatorTest, DeallocateClears) {
+    std::map<int, int, std::less<int>, MapAlloc> m;
+    
+    for (int i = 0; i < 10; i++) {
+        m[i] = i + 1;
+    }
+    
+    m.clear();
+    
+    ASSERT_EQ(m.size(), 0);
+}
+
+
+TEST(MyAllocatorTest, DeallocateMap) {
+    std::map<int, int, std::less<int>,
+    LinearAllocator<std::pair<const int, int>, 100>> m;
+    
+    for (int i = 0; i < 100; i++) {
+        m[i] = i + 1;
+    }
+    m.clear();
+    
+    for (int i = 0; i < 100; i++) {
+        m[i] = i + 1;
+    }
+    
+    ASSERT_EQ(m[0], 1);
+    ASSERT_EQ(m[1], 2);
+    ASSERT_EQ(m[2], 3);
+    ASSERT_EQ(m[3], 4);
+    ASSERT_EQ(m[4], 5);
+    ASSERT_EQ(m[5], 6);
+    ASSERT_EQ(m[6], 7);
+    ASSERT_EQ(m[7], 8);
+    ASSERT_EQ(m[8], 9);
+    ASSERT_EQ(m[9], 10);
+}
+

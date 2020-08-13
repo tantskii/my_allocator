@@ -44,6 +44,7 @@ public:
     
     size_t size() const;
     bool empty() const;
+    void clear();
     
 private:
     Allocator m_allocator;
@@ -61,7 +62,7 @@ void ForwardList<T, Allocator>::addElement(const T& elem) {
         m_tail = m_tail->next;
     }
     
-    new (m_tail) Node<T>(elem);
+    m_allocator.construct(m_tail, elem);
 
     m_size++;
 }
@@ -76,6 +77,19 @@ bool ForwardList<T, Allocator>::empty() const {
 template <typename T, typename Allocator>
 size_t ForwardList<T, Allocator>::size() const {
     return m_size;
+}
+
+template <typename T, typename Allocator>
+void ForwardList<T, Allocator>::clear() {
+    Node<T> * next_node = nullptr;
+    for (Node<T> * node = m_head; node != nullptr;) {
+        next_node = node->next;
+        m_allocator.destroy(node);
+        m_allocator.deallocate(node, 1);
+        node = next_node;
+    }
+    m_size = 0;
+    m_tail = m_head = nullptr;
 }
 
 
@@ -125,12 +139,7 @@ const T& ForwardList<T, Allocator>::at(size_t index) const {
 
 template <typename T, typename Allocator>
 ForwardList<T, Allocator>::~ForwardList() {
-    Node<T> * next_node = nullptr;
-    for (Node<T> * node = m_head; node != nullptr;) {
-        next_node = node->next;
-        m_allocator.destroy(node);
-        node = next_node;
-    }
+    clear();
 }
 
 

@@ -56,3 +56,74 @@ TEST(MyContainerTest, LinearAllocator) {
     ASSERT_EQ(cont.at(2), 2);
     ASSERT_EQ(cont.at(3), 3);
 }
+
+
+TEST(MyContainerTest, ClearLinearAllocator) {
+    ForwardList<int, LinearAllocator<Node<int>, 4>> cont;
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    cont.clear();
+    
+    ASSERT_EQ(cont.size(), 0);
+    ASSERT_TRUE(cont.empty());
+}
+
+
+TEST(MyContainerTest, AliveAfterClearLinearAllocator) {
+    ForwardList<int, LinearAllocator<Node<int>, 4>> cont;
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    cont.clear();
+    
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    ASSERT_EQ(cont.at(0), 0);
+    ASSERT_EQ(cont.at(1), 1);
+    ASSERT_EQ(cont.at(2), 2);
+    ASSERT_EQ(cont.at(3), 3);
+    ASSERT_EQ(cont.size(), 4);
+    ASSERT_FALSE(cont.empty());
+}
+
+
+TEST(MyContainerTest, ClearStdAllocator) {
+    ForwardList<int> cont;
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    cont.clear();
+    
+    ASSERT_EQ(cont.size(), 0);
+    ASSERT_TRUE(cont.empty());
+}
+
+
+TEST(MyContainerTest, AliveAfterClearStdAllocator) {
+    ForwardList<int> cont;
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    cont.clear();
+    
+    for (int i = 0; i < 4; i++) {
+        cont.addElement(i);
+    }
+    
+    ASSERT_EQ(cont.at(0), 0);
+    ASSERT_EQ(cont.at(1), 1);
+    ASSERT_EQ(cont.at(2), 2);
+    ASSERT_EQ(cont.at(3), 3);
+    ASSERT_EQ(cont.size(), 4);
+    ASSERT_FALSE(cont.empty());
+}
+
+
+
