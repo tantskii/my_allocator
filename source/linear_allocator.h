@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "pointer_controller.h"
+#include "pointer_holder.h"
 
 template <typename T, size_t Capacity>
 class LinearAllocator {
