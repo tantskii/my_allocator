@@ -3,16 +3,18 @@
 #include <unordered_set>
 #include <iostream>
 
+
 template <typename T>
-class PointerPool {
+class PointerHolder {
 public:
-    PointerPool() = default;
+    PointerHolder() = default;
     void addRange(T* pointer, size_t n_pointers);
     void add(T* pointer);
     void remove(T* pointer);
     void removeRange(T* pointer, size_t n_pointers);
     bool empty();
     void clear();
+    void reserve(size_t count);
     size_t size();
 private:
     std::unordered_set<T*> m_pointers;
@@ -20,21 +22,21 @@ private:
 
 
 template <typename T>
-void PointerPool<T>::addRange(T* pointer, size_t pointers_count) {
-    for (size_t i = 0; i < pointers_count; i++) {
+void PointerHolder<T>::addRange(T* pointer, size_t n_pointers) {
+    for (size_t i = 0; i < n_pointers; i++) {
         m_pointers.insert(pointer + i);
     }
 }
 
 
 template <typename T>
-void PointerPool<T>::add(T* pointer) {
+void PointerHolder<T>::add(T* pointer) {
     m_pointers.insert(pointer);
 }
 
 
 template <typename T>
-void PointerPool<T>::remove(T* pointer) {
+void PointerHolder<T>::remove(T* pointer) {
     auto iter = m_pointers.find(pointer);
     
     if (iter != m_pointers.end()) {
@@ -44,7 +46,7 @@ void PointerPool<T>::remove(T* pointer) {
 
 
 template <typename T>
-void PointerPool<T>::removeRange(T* pointer, size_t n_pointers) {
+void PointerHolder<T>::removeRange(T* pointer, size_t n_pointers) {
     for (size_t i = 0; i < n_pointers; i++) {
         remove(pointer + i);
     }
@@ -52,17 +54,24 @@ void PointerPool<T>::removeRange(T* pointer, size_t n_pointers) {
 
 
 template <typename T>
-bool PointerPool<T>::empty() {
+bool PointerHolder<T>::empty() {
     return m_pointers.empty();
 }
 
 
 template <typename T>
-void PointerPool<T>::clear() {
+void PointerHolder<T>::clear() {
     m_pointers.clear();
 }
 
+
 template <typename T>
-size_t PointerPool<T>::size() {
+void PointerHolder<T>::reserve(size_t count) {
+    m_pointers.reserve(count);
+}
+
+
+template <typename T>
+size_t PointerHolder<T>::size() {
     return m_pointers.size();
 }
